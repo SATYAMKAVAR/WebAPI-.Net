@@ -1,4 +1,5 @@
 using WebAPI.Data;
+using WebAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<CountryRepository>();
 builder.Services.AddScoped<StateRepository>();
-builder.Services.AddScoped<CItyRepository>();
+builder.Services.AddScoped<CityRepository>();
+builder.Services.AddScoped<BillRepository>();
+builder.Services.AddScoped<CustomerRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderDetailRepository>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<UserRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -26,5 +34,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

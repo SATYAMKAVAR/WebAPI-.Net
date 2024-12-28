@@ -12,7 +12,7 @@
         public decimal Amount { get; set; }
         public decimal TotalAmount { get; set; }
         public int UserID { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
     }
     public class OrderDetailProductDropDownModel

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics.Metrics;
@@ -11,12 +12,16 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        #region CountryRepository
+        #region CountryRepository , Validator
         private readonly CountryRepository _countryRepository;
 
-        public CountryController(CountryRepository CountryRepositry)
+        private readonly IValidator<CountryModel> _validator;
+
+        public CountryController(CountryRepository CountryRepositry , IValidator<CountryModel> validator)
         {
             _countryRepository = CountryRepositry;
+            _validator = validator;
+
         }
         #endregion
 
@@ -60,6 +65,13 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult InsertCountry([FromBody] CountryModel country)
         {
+            var validationResult = _validator.Validate(country);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             if (country == null)
                 return BadRequest();
 
@@ -77,6 +89,13 @@ namespace WebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateCountry(int id, [FromBody] CountryModel country)
         {
+            var validationResult = _validator.Validate(country);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             if (country == null || id != country.CountryID)
                 return BadRequest();
 
@@ -114,5 +133,4 @@ namespace WebAPI.Controllers
         #endregion
 
     }
-
 }

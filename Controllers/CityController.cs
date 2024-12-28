@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Diagnostics.Metrics;
 using WebAPI.Data;
 using WebAPI.Models;
 
@@ -9,12 +11,15 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        #region CityRepository
+        #region CityRepository , Validator
         private readonly CityRepository _cityRepository;
 
-        public CityController(CityRepository cityRepository)
+        private readonly IValidator<CityModel> _validator;
+
+        public CityController(CityRepository cityRepository , IValidator<CityModel> validator)
         {
             _cityRepository = cityRepository;
+            _validator = validator;
         }
         #endregion
 
@@ -54,10 +59,16 @@ namespace WebAPI.Controllers
         #endregion
 
         #region InsertCity
-
         [HttpPost]
         public IActionResult InsertCity([FromBody] CityModel city)
         {
+            var validationResult = _validator.Validate(city);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             if (city == null)
                 return BadRequest();
 
@@ -75,6 +86,13 @@ namespace WebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateCity(int id, [FromBody] CityModel city)
         {
+            var validationResult = _validator.Validate(city);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             if (city == null || id != city.CityID)
                 return BadRequest();
 

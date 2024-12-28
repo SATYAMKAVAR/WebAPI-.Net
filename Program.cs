@@ -1,6 +1,7 @@
 using WebAPI.Data;
 using WebAPI.Controllers;
-
+using FluentValidation.AspNetCore;
+using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,6 +20,8 @@ builder.Services.AddScoped<UserRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers().AddFluentValidation(c => c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 

@@ -45,7 +45,7 @@ namespace WebAPI.Data
                                 ShippingAddress = objSDR["ShippingAddress"].ToString(),
                                 UserID = Convert.ToInt32(objSDR["UserID"]),
                                 UserName = objSDR["UserName"].ToString(),
-                                OrderNumber = objSDR["OrderNumber"] != DBNull.Value ? Convert.ToInt32(objSDR["OrderNumber"]) : (int?)null
+                                OrderNumber = Convert.ToInt32(objSDR["OrderNumber"]) 
                             };
 
                             orderList.Add(order);
@@ -223,7 +223,7 @@ namespace WebAPI.Data
                                 ShippingAddress = objSDR["ShippingAddress"].ToString(),
                                 UserID = Convert.ToInt32(objSDR["UserID"]),
                                 UserName = objSDR["UserName"].ToString(),
-                                OrderNumber = objSDR["OrderNumber"] == DBNull.Value ? (int?)null : Convert.ToInt32(objSDR["OrderNumber"])
+                                OrderNumber =  Convert.ToInt32(objSDR["OrderNumber"])
                             };
 
                             orderList.Add(order); // Adding the order object to the list

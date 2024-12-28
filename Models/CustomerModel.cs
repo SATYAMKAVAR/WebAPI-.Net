@@ -12,7 +12,7 @@
         public string PinCode { get; set; }
         public decimal NetAmount { get; set; }
         public int UserID { get; set; }
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
     }
     public class CustomerUserDropDownModel
     {

@@ -37,10 +37,10 @@ namespace WebAPI.Data
                                 CountryID = Convert.ToInt32(sdr["CountryID"]),
                                 StateName = sdr["StateName"].ToString(),
                                 CountryName = sdr["CountryName"].ToString(),
-
                                 StateCode = sdr["StateCode"].ToString(),
                                 CreatedDate = Convert.ToDateTime(sdr["CreatedDate"]),
-                                ModifiedDate = sdr["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(sdr["ModifiedDate"]) : DateTime.MinValue
+                                ModifiedDate = sdr["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(sdr["ModifiedDate"]) : DateTime.MinValue,
+                                CityCount = Convert.ToInt32(sdr["CityCount"])
                             };
                             StateList.Add(State);
                         }
@@ -83,11 +83,9 @@ namespace WebAPI.Data
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("@StateID", state.StateID);
                 cmd.Parameters.AddWithValue("@CountryID", state.CountryID);
                 cmd.Parameters.AddWithValue("@StateName", state.StateName);
                 cmd.Parameters.AddWithValue("@StateCode", state.StateCode);
-
                 conn.Open();
                 int rowsAffected = cmd.ExecuteNonQuery(); // Execute the stored procedure
 

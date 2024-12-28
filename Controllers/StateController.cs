@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Diagnostics.Metrics;
 using WebAPI.Data;
 using WebAPI.Models;
 
@@ -10,12 +12,15 @@ namespace WebAPI.Controllers
     [ApiController]
     public class StateController : ControllerBase
     {
-        #region StateRepository
+        #region StateRepository , Validator
         private readonly StateRepository _stateRepository;
 
-        public StateController(StateRepository stateRepository)
+        private readonly IValidator<StateModel> _validator;
+
+        public StateController(StateRepository stateRepository , IValidator<StateModel> validator)
         {
             _stateRepository = stateRepository;
+            _validator = validator;
         }
         #endregion
 
@@ -55,6 +60,13 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult InsertState([FromBody] StateModel state)
         {
+            var validationResult = _validator.Validate(state);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             if (state == null)
                 return BadRequest();
 
@@ -72,6 +84,13 @@ namespace WebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateState(int id, [FromBody] StateModel state)
         {
+            var validationResult = _validator.Validate(state);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             if (state == null || id != state.StateID)
                 return BadRequest();
 

@@ -10,9 +10,9 @@ namespace WebAPI.Models
         public int CountryID { get; set; }
         public int StateID { get; set; }
         public string CityCode { get; set; }
-        public string CountryName { get; set; }
-        public string StateName { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public string? CountryName { get; set; }
+        public string? StateName { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
     }
     public class CountryDropDownModel

@@ -224,6 +224,8 @@ namespace WebAPI.Data
                             {
                                 CityID = objSDR["CityID"] == DBNull.Value ? (int?)null : Convert.ToInt32(objSDR["CityID"]),
                                 CityName = objSDR["CityName"].ToString(),
+                                StateName = objSDR["StateName"].ToString(),
+                                CountryName = objSDR["CountryName"].ToString(),
                                 CountryID = Convert.ToInt32(objSDR["CountryID"]),
                                 StateID = Convert.ToInt32(objSDR["StateID"]),
                                 CityCode = objSDR["CityCode"].ToString(),
